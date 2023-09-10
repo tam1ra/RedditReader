@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditReader", "RedditReader\RedditReader.csproj", "{930ADDF7-52CC-40B9-A02C-6216A70225CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthTokenRetriever", "AuthTokenRetriever\AuthTokenRetriever.csproj", "{ECDF7B37-9EE8-4CCD-BCF7-4D490F9D5B0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleProject", "ExampleProject\ExampleProject.csproj", "{89F5ECA4-4068-427E-946B-0A0DBF751599}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{930ADDF7-52CC-40B9-A02C-6216A70225CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930ADDF7-52CC-40B9-A02C-6216A70225CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930ADDF7-52CC-40B9-A02C-6216A70225CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930ADDF7-52CC-40B9-A02C-6216A70225CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECDF7B37-9EE8-4CCD-BCF7-4D490F9D5B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECDF7B37-9EE8-4CCD-BCF7-4D490F9D5B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECDF7B37-9EE8-4CCD-BCF7-4D490F9D5B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDF7B37-9EE8-4CCD-BCF7-4D490F9D5B0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89F5ECA4-4068-427E-946B-0A0DBF751599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F5ECA4-4068-427E-946B-0A0DBF751599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F5ECA4-4068-427E-946B-0A0DBF751599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F5ECA4-4068-427E-946B-0A0DBF751599}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
