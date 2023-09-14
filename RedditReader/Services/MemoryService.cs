@@ -21,6 +21,8 @@ public class MemoryService : IService
 
     public void NewPostsUpdated(object sender, PostsUpdateEventArgs e)
     {
+        if (e.Added is null) return;
+        
         foreach (Post post in e.Added)
         {
             if (!AllPosts.ContainsKey(post.Id))
@@ -108,11 +110,11 @@ public class MemoryService : IService
     {
         foreach (var post in posts)
         {
-            if (!MostPostedAuthor.ContainsKey(post.Id))
-                MostPostedAuthor.Add(post.Id, new TopAuthor(post.Author, 0) );
-            MostPostedAuthor[post.Id].PostCount++;
+            if (!MostPostedAuthor.ContainsKey(post.Author))
+                MostPostedAuthor.Add(post.Author, new TopAuthor(post.Author, 0) );
+            MostPostedAuthor[post.Author].PostCount++;
 
-            TopPostedAuthor.Enqueue(post.Id, MostPostedAuthor[post.Id]);
+            TopPostedAuthor.Enqueue(post.Author, MostPostedAuthor[post.Author]);
         }
 
         //TODO:
@@ -124,12 +126,12 @@ public class MemoryService : IService
     {
         Dictionary<string, int> topList = new();
         int count = 0, prev = -1;
-        while (TopPostedAuthor.TryDequeue(out string id, out TopAuthor topAuthor))
+        while (TopPostedAuthor.TryDequeue(out string author, out TopAuthor topAuthor))
         {
-            if (!topList.ContainsKey(id))
-                topList.Add(id, topAuthor.PostCount);
+            if (!topList.ContainsKey(author))
+                topList.Add(author, topAuthor.PostCount);
             else
-                topList[id] = Math.Max(topList[id], topAuthor.PostCount);
+                topList[author] = Math.Max(topList[author], topAuthor.PostCount);
 
             /*if (prev != priority)
             {
