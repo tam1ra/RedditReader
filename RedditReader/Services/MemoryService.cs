@@ -9,11 +9,11 @@ public class MemoryService : IService
     private const int LIMIT = 5;
 
     private PriorityQueue<string, int> TopVotedPosts = new(Comparer<int>.Create((x, y) => y - x));
-    private PriorityQueue<string, int> TopPostedAuthor = new(Comparer<int>.Create((x, y) => y - x))
+    private PriorityQueue<string, TopAuthor> TopPostedAuthor = new(Comparer<TopAuthor>.Create((x, y) => y.PostCount - x.PostCount))
         ;
     private Dictionary<string, LightPost> AllPosts = new();
     private Dictionary<string, int> MostVotesPost = new();
-    private Dictionary<string, int> MostPostedAuthor = new();
+    private Dictionary<string, TopAuthor> MostPostedAuthor = new();
 
     public MemoryService()
     {
@@ -21,6 +21,8 @@ public class MemoryService : IService
 
     public void NewPostsUpdated(object sender, PostsUpdateEventArgs e)
     {
+        if (e.Added is null) return;
+        
         foreach (Post post in e.Added)
         {
             if (!AllPosts.ContainsKey(post.Id))
@@ -108,11 +110,11 @@ public class MemoryService : IService
     {
         foreach (var post in posts)
         {
-            if (!MostPostedAuthor.ContainsKey(post.Id))
-                MostPostedAuthor.Add(post.Id, 0);
-            MostPostedAuthor[post.Id]++;
+            if (!MostPostedAuthor.ContainsKey(post.Author))
+                MostPostedAuthor.Add(post.Author, new TopAuthor(post.Author, 0) );
+            MostPostedAuthor[post.Author].PostCount++;
 
-            TopPostedAuthor.Enqueue(post.Id, MostPostedAuthor[post.Id]);
+            TopPostedAuthor.Enqueue(post.Author, MostPostedAuthor[post.Author]);
         }
 
         //TODO:
@@ -124,12 +126,12 @@ public class MemoryService : IService
     {
         Dictionary<string, int> topList = new();
         int count = 0, prev = -1;
-        while (TopPostedAuthor.TryDequeue(out string id, out int priority))
+        while (TopPostedAuthor.TryDequeue(out string author, out TopAuthor topAuthor))
         {
-            if (!topList.ContainsKey(id))
-                topList.Add(id, priority);
+            if (!topList.ContainsKey(author))
+                topList.Add(author, topAuthor.PostCount);
             else
-                topList[id] = Math.Max(topList[id], priority);
+                topList[author] = Math.Max(topList[author], topAuthor.PostCount);
 
             /*if (prev != priority)
             {
@@ -141,10 +143,11 @@ public class MemoryService : IService
         }
 
         List<TopAuthor> topAuthors = new();
-        foreach (var author in topList)
+        foreach (var post in topList)
         {
-            TopPostedAuthor.Enqueue(author.Key, author.Value);
-            topAuthors.Add(new TopAuthor() { Author = author.Key, PostCount = author.Value});
+            var author = MostPostedAuthor[post.Key];
+            TopPostedAuthor.Enqueue(post.Key, author);
+            topAuthors.Add(author);
         }
 
         //TODO:
